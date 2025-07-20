@@ -43,12 +43,29 @@ const loginUser = async (req, res) => {
     const userObj = user.toObject();
     delete userObj.__v; // Remove version key
 
+    /*
     res.status(200).json({
       id: userObj._id,
       name: userObj.name,
       email: userObj.email,
       modules: userObj.modules,
     });
+    */
+
+  res.status(200).json({
+  id: userObj._id,
+  name: userObj.name,
+  email: userObj.email,
+  modules: userObj.modules.map(module => ({
+    _id: module._id,
+    name: module.name,
+    url: module.url
+  })),
+});
+
+
+
+
   } catch (error) {
     res.status(500).json({ message: 'Error logging in', error: error.message });
   }
